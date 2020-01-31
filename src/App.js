@@ -1,17 +1,81 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import services from './services/servicesRequest.js';
 import './App.css';
 
-function App() {
-  return (
-    <section className="container">
-      <div className="row">
-        <div className="col">
-        l
-        </div>  
-      </div>
-    </section>
-  );
-}
+export default class App extends Component {
+  state = {
+    clientSelect: undefined,
+    response:'',
+    clients:[{
+      id:'2741',
+      sheet:'1J5XJotsi4IyLztO9PGTbaHciveIMC1A5umDaUwPVOzE',
+      tab:'bancoEstado'
+    }, 
+    {
+      id: '3156',
+      sheet: '1arEjfz9xpMb2Si94sq8KDRFcf-zH6JDHDAgPM3sSmFw',
+      tab: 'smu'
+    },
+    {
+      id: '3207',
+      sheet: '1gNp29qWkQjqLgr9TYiue1KyKgf8yM2gwS7Vwv56xsnA',
+      tab: 'transbank'
+    },
+    {
+      id: '3200',
+      sheet: '19ou4-GboGDhgZz4rte596ugk5ihQmqjoHn8VmNLGBp',
+      tab: 'afp'
+    },
+    {
+      id: '3072',
+      sheet: '110xR_RiO9kGM1f0qirjsPGPPS1480564TxDPPvRHOrg',
+      tab: 'security'
+    }        
+    ]
+  }
 
-export default App;
+  render() {
+    return (
+      <section className="container h-100">
+        <div className="row justify-content-center align-items-center">
+          <div className="col-md-4">
+            <form className="mb-3" onSubmit={this.handleSubmit}>
+              <div className="form-group mt-5">
+                <label htmlFor="exampleFormControlSelect1">Seleccionar cliente</label>
+                <select className="form-control" name="client" id="exampleFormControlSelect1" onChange={this.handleChange} value={this.state.clientSelect} >
+                  <option value="null">Seleccionar</option>
+                  <option value="0">Banco Estado</option>
+                </select>
+              </div>
+              <button type="submit" className="btn btn-primary">Generar</button>
+            </form>
+            {this.state.response !== '' ? (
+              <div className="alert alert-primary" role="alert">
+                {this.state.response}
+              </div>
+            ) : null }
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  handleChange = event => {
+    this.setState({ clientSelect: event.target.value });
+  }
+  
+  handleSubmit = event => {
+    event.preventDefault();
+    let client = this.state.clients[this.state.clientSelect];
+    services.request(client).then(response => {
+      this.setState({ response: response });
+    })
+    .catch(err => {
+      console.log("Ocurrió un error", err)
+    });
+    
+
+  }
+
+
+}
