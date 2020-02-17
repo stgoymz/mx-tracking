@@ -45,6 +45,7 @@ export default class App extends Component {
                 <select className="form-control" name="client" id="exampleFormControlSelect1" onChange={this.handleChange} value={this.state.clientSelect} >
                   <option value="null">Seleccionar</option>
                   <option value="0">Banco Estado</option>
+                  <option value="2">Transbank</option>
                 </select>
               </div>
               <button type="submit" className="btn btn-primary">Generar</button>
