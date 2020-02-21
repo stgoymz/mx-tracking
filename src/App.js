@@ -42,13 +42,13 @@ export default class App extends Component {
             <form className="mb-3" onSubmit={this.handleSubmit}>
               <div className="form-group mt-5">
                 <label htmlFor="exampleFormControlSelect1">Seleccionar cliente</label>
-                <select className="form-control" name="client" id="exampleFormControlSelect1" onChange={this.handleChange} value={this.state.clientSelect} >
+                <select className="form-control" name="client" id="exampleFormControlSelect1" onChange={this.handleChange} defaultValue={this.state.clientSelect} required>
                   <option value="null">Seleccionar</option>
                   <option value="0">Banco Estado</option>
                   <option value="2">Transbank</option>
                 </select>
               </div>
-              <button type="submit" className="btn btn-primary">Generar</button>
+              <button type="submit" disabled={!this.state.clientSelect || isNaN(this.state.clientSelect) } className="btn btn-primary">Generar</button>
             </form>
             {this.state.response !== '' ? (
               <div className="alert alert-primary" role="alert">
