@@ -71,6 +71,7 @@ export default class App extends Component {
 
   handleChange = event => {
     this.setState({ clientSelect: event.target.value });
+    this.setState({ response: '' });
   }
   
   handleSubmit = event => {
