@@ -6,6 +6,7 @@ export default class App extends Component {
   state = {
     clientSelect: undefined,
     response:'',
+    loading: false,
     clients:[{
       id:'2741',
       sheet:'1J5XJotsi4IyLztO9PGTbaHciveIMC1A5umDaUwPVOzE',
@@ -50,11 +51,18 @@ export default class App extends Component {
               </div>
               <button type="submit" disabled={!this.state.clientSelect || isNaN(this.state.clientSelect) } className="btn btn-primary">Generar</button>
             </form>
+            {this.state.loading? (
+              <div className="load-3">
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+              </div>
+            ) : null}            
             {this.state.response !== '' ? (
               <div className="alert alert-primary" role="alert">
                 {this.state.response}
               </div>
-            ) : null }
+            ) : null}
           </div>
         </div>
       </section>
@@ -67,15 +75,16 @@ export default class App extends Component {
   
   handleSubmit = event => {
     event.preventDefault();
+    this.setState({ loading: true });
     let client = this.state.clients[this.state.clientSelect];
     services.request(client).then(response => {
-      this.setState({ response: response });
+      setTimeout(() => {
+        this.setState({ loading: false, response: response });
+      }, 1000);
     })
     .catch(err => {
       console.log("Ocurrió un error", err)
-    });
-    
-
+    })
   }
 
 
